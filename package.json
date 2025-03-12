@@ -1,7 +1,7 @@
 {
   "name": "elsound-app",
   "version": "0.1.0",
-  "homepage": "https://diegoCasolaro.github.io/elsound-app",
+  "homepage": "https://Eldego07.github.io/elsound-app",
   "private": true,
   "scripts": {
     "predeploy": "npm run build",
