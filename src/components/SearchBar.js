@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { TextField, IconButton } from '@mui/material';
+import { TextField, IconButton, Box, Paper } from '@mui/material';
 import { Search } from '@mui/icons-material';
 
 const SearchBar = ({ onSearch }) => {
@@ -7,22 +7,47 @@ const SearchBar = ({ onSearch }) => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    onSearch(searchTerm);
+    if (searchTerm.trim()) {
+      onSearch(searchTerm);
+    }
   };
 
   return (
-    <form onSubmit={handleSubmit} style={{ display: 'flex', margin: '20px' }}>
+    <Paper component="form" onSubmit={handleSubmit} 
+      sx={{ 
+        p: '2px 4px',
+        display: 'flex',
+        alignItems: 'center',
+        maxWidth: 600,
+        margin: '0 auto',
+        backgroundColor: 'rgba(255, 255, 255, 0.1)',
+        backdropFilter: 'blur(10px)'
+      }}
+    >
       <TextField
         fullWidth
-        variant="outlined"
+        variant="standard"
         placeholder="Search for music..."
         value={searchTerm}
         onChange={(e) => setSearchTerm(e.target.value)}
+        sx={{ 
+          ml: 1,
+          flex: 1,
+          '& .MuiInputBase-input': {
+            color: 'inherit',
+          },
+          '& .MuiInput-underline:before': {
+            borderBottomColor: 'rgba(255, 255, 255, 0.3)',
+          },
+        }}
+        InputProps={{
+          disableUnderline: true,
+        }}
       />
-      <IconButton type="submit">
+      <IconButton type="submit" sx={{ p: '10px', color: 'inherit' }}>
         <Search />
       </IconButton>
-    </form>
+    </Paper>
   );
 };
 
