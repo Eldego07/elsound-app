@@ -1,15 +1,15 @@
 {
   "files": {
-    "main.css": "/elsound-app/static/css/main.4a497931.css",
+    "main.css": "/elsound-app/static/css/main.9fd4869d.css",
     "main.js": "/elsound-app/static/js/main.91bac6e8.js",
     "static/js/488.1873975b.chunk.js": "/elsound-app/static/js/488.1873975b.chunk.js",
     "index.html": "/elsound-app/index.html",
-    "main.4a497931.css.map": "/elsound-app/static/css/main.4a497931.css.map",
+    "main.9fd4869d.css.map": "/elsound-app/static/css/main.9fd4869d.css.map",
     "main.91bac6e8.js.map": "/elsound-app/static/js/main.91bac6e8.js.map",
     "488.1873975b.chunk.js.map": "/elsound-app/static/js/488.1873975b.chunk.js.map"
   },
   "entrypoints": [
-    "static/css/main.4a497931.css",
+    "static/css/main.9fd4869d.css",
     "static/js/main.91bac6e8.js"
   ]
 }
