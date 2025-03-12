@@ -1,15 +1,15 @@
 {
   "files": {
-    "main.css": "/elsound-app/static/css/main.35acf9dd.css",
-    "main.js": "/elsound-app/static/js/main.e0bbb136.js",
-    "static/js/453.69f3745b.chunk.js": "/elsound-app/static/js/453.69f3745b.chunk.js",
+    "main.css": "/elsound-app/static/css/main.4a8f2a03.css",
+    "main.js": "/elsound-app/static/js/main.57f7ed84.js",
+    "static/js/488.1873975b.chunk.js": "/elsound-app/static/js/488.1873975b.chunk.js",
     "index.html": "/elsound-app/index.html",
-    "main.35acf9dd.css.map": "/elsound-app/static/css/main.35acf9dd.css.map",
-    "main.e0bbb136.js.map": "/elsound-app/static/js/main.e0bbb136.js.map",
-    "453.69f3745b.chunk.js.map": "/elsound-app/static/js/453.69f3745b.chunk.js.map"
+    "main.4a8f2a03.css.map": "/elsound-app/static/css/main.4a8f2a03.css.map",
+    "main.57f7ed84.js.map": "/elsound-app/static/js/main.57f7ed84.js.map",
+    "488.1873975b.chunk.js.map": "/elsound-app/static/js/488.1873975b.chunk.js.map"
   },
   "entrypoints": [
-    "static/css/main.35acf9dd.css",
-    "static/js/main.e0bbb136.js"
+    "static/css/main.4a8f2a03.css",
+    "static/js/main.57f7ed84.js"
   ]
 }
