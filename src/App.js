@@ -53,8 +53,8 @@ function App() {
         headers: {
           'Accept': 'application/json',
           'Content-Type': 'application/json',
-          'Origin': 'http://localhost:3003',
-          'Referer': 'http://localhost:3003/'
+          'Origin': 'https://eldego07.github.io',
+          'Referer': 'https://eldego07.github.io/elsound-app/'
         },
         withCredentials: false
       });

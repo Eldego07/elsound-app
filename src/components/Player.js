@@ -1,129 +1,143 @@
-import React, { useState } from 'react';
+import React, { useContext } from 'react';
 import YouTube from 'react-youtube';
-import { Slider, Typography, Box, Button, useTheme, useMediaQuery } from '@mui/material';
-import { VolumeUp, YouTube as YouTubeIcon } from '@mui/icons-material';
+import { Box, Slider, IconButton } from '@mui/material';
+import VolumeUpIcon from '@mui/icons-material/VolumeUp';
+import VolumeDownIcon from '@mui/icons-material/VolumeDown';
+import VolumeMuteIcon from '@mui/icons-material/VolumeMute';
+import { ThemeContext } from '../context/ThemeContext';
 
 function Player({ videoId, volume, onVolumeChange }) {
-  const theme = useTheme();
-  const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
-  const [videoError, setVideoError] = useState(false);
-
+  const { darkMode } = useContext(ThemeContext);
+  
   const opts = {
-    height: isMobile ? '240' : '390',
-    width: '100%',
+    height: '390',
+    width: '640',
     playerVars: {
       autoplay: 1,
-      origin: window.location.origin,
-      enablejsapi: 1,
+      controls: 1,
+      disablekb: 0,
+      playsinline: 1,
       modestbranding: 1,
       rel: 0,
-      host: 'https://www.youtube.com',
-      playsinline: 1,
-      controls: 1,
-      fs: 1,
+      showinfo: 0,
       iv_load_policy: 3,
-      disablekb: 1
+      fs: 1,
+      enablejsapi: 1,
+      origin: window.location.origin,
     },
   };
 
-  let player = null;
-
   const onReady = (event) => {
-    player = event.target;
-    player.setVolume(volume);
-    player.setPlaybackQuality('small');
-    document.addEventListener('visibilitychange', () => {
-      if (document.hidden) {
-        player.playVideo();
-      }
-    });
+    // Set initial volume
+    event.target.setVolume(volume);
+    // Enable background playback
+    event.target.setPlaybackQuality('small');
+    // Add audio-only optimization
+    event.target.setOption('player', 'audioonly', true);
   };
 
-  const onError = (error) => {
-    console.error("YouTube Player Error:", error);
-    setVideoError(true);
+  const onStateChange = (event) => {
+    // Skip ads if they appear
+    if (event.data === -1 || event.data === 3) {
+      event.target.playVideo();
+    }
   };
 
   const handleVolumeChange = (event, newValue) => {
     onVolumeChange(newValue);
-    if (player) {
-      player.setVolume(newValue);
-    }
   };
 
-  const openInYouTube = () => {
-    window.open(`https://www.youtube.com/watch?v=${videoId}`, '_blank');
+  const VolumeIcon = () => {
+    if (volume === 0) return <VolumeMuteIcon />;
+    if (volume < 50) return <VolumeDownIcon />;
+    return <VolumeUpIcon />;
   };
 
   return (
-    <div style={{ margin: '20px', width: '100%', maxWidth: '100vw' }}>
-      <div style={{ position: 'relative', paddingTop: isMobile ? '56.25%' : '0' }}>
-        {videoId && !videoError ? (
-          <div style={{ 
-            position: isMobile ? 'absolute' : 'relative',
-            top: 0,
-            left: 0,
-            width: '100%',
-            height: isMobile ? '100%' : 'auto' 
-          }}>
-            <YouTube 
-              videoId={videoId} 
-              opts={opts} 
-              onReady={onReady}
-              onError={onError}
-              className="youtube-player"
-            />
-          </div>
-        ) : videoError && videoId ? (
-          <Box 
-            display="flex" 
-            flexDirection="column" 
-            alignItems="center" 
-            justifyContent="center" 
-            p={3}
-            sx={{ 
-              bgcolor: 'background.paper',
-              borderRadius: 1,
-              textAlign: 'center'
+    <div className="youtube-player" style={{
+      boxShadow: '0 8px 32px rgba(0, 0, 0, 0.15)',
+      borderRadius: '12px',
+      overflow: 'hidden',
+      transition: 'transform 0.3s ease, box-shadow 0.3s ease',
+      '&:hover': {
+        transform: 'translateY(-4px)',
+        boxShadow: '0 12px 48px rgba(0, 0, 0, 0.2)',
+      }
+    }}>
+      {videoId && (
+        <>
+          <YouTube
+            videoId={videoId}
+            opts={opts}
+            onReady={onReady}
+            onStateChange={onStateChange}
+            onPlaybackQualityChange={(event) => {
+              event.target.setPlaybackQuality('small');
             }}
-          >
-            <Typography variant="h6" gutterBottom>
-              This video has age restrictions or can only be played on YouTube
-            </Typography>
-            <Button
-              variant="contained"
-              color="primary"
-              startIcon={<YouTubeIcon />}
-              onClick={openInYouTube}
-              sx={{ mt: 2 }}
+          />
+          <Box sx={{ 
+            display: 'flex', 
+            alignItems: 'center', 
+            gap: 2,
+            padding: '12px 20px',
+            background: darkMode 
+              ? 'linear-gradient(to right, rgba(30,30,30,0.95), rgba(20,20,20,0.95))'
+              : 'linear-gradient(to right, rgba(255,255,255,0.95), rgba(245,245,245,0.95))',
+            borderRadius: '0 0 12px 12px',
+            backdropFilter: 'blur(10px)',
+            borderTop: '1px solid',
+            borderColor: darkMode ? 'rgba(255,255,255,0.1)' : 'rgba(0,0,0,0.1)'
+          }}>
+            <IconButton 
+              size="small" 
+              sx={{ 
+                color: darkMode ? '#fff' : '#000',
+                opacity: 0.8,
+                transition: 'all 0.2s ease',
+                '&:hover': {
+                  opacity: 1,
+                  transform: 'scale(1.1)'
+                }
+              }}
             >
-              Watch on YouTube
-            </Button>
+              <VolumeIcon />
+            </IconButton>
+            <Slider
+              value={volume}
+              onChange={handleVolumeChange}
+              aria-labelledby="volume-slider"
+              min={0}
+              max={100}
+              sx={{ 
+                width: 120,
+                color: darkMode ? '#fff' : '#1976d2',
+                '& .MuiSlider-thumb': {
+                  width: 14,
+                  height: 14,
+                  transition: 'all 0.2s ease',
+                  '&:hover': {
+                    boxShadow: `0 0 0 8px ${darkMode ? 'rgba(255,255,255,0.1)' : 'rgba(25,118,210,0.1)'}`,
+                  },
+                  '&.Mui-active': {
+                    width: 16,
+                    height: 16,
+                  }
+                },
+                '& .MuiSlider-track': {
+                  height: 4,
+                  background: darkMode 
+                    ? 'linear-gradient(90deg, #fff, rgba(255,255,255,0.8))'
+                    : 'linear-gradient(90deg, #1976d2, rgba(25,118,210,0.8))'
+                },
+                '& .MuiSlider-rail': {
+                  height: 4,
+                  opacity: 0.2
+                }
+              }}
+            />
           </Box>
-        ) : null}
-      </div>
-      <Box 
-        display="flex" 
-        alignItems="center" 
-        mt={2}
-        flexDirection={isMobile ? 'column' : 'row'}
-      >
-        <VolumeUp />
-        <Slider
-          value={volume}
-          onChange={handleVolumeChange}
-          aria-labelledby="volume-slider"
-          min={0}
-          max={100}
-          sx={{ 
-            margin: isMobile ? '10px 0' : '0 20px',
-            width: isMobile ? '100%' : '200px'
-          }}
-        />
-        <Typography variant="body2">
-          {volume}%
-        </Typography>
-      </Box>
+        </>
+      )}
     </div>
   );
 }
