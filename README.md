@@ -8,10 +8,6 @@ In the project directory, you can run:
 
 ### `npm start`
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000).
-
-
 [ElSound](https://eldego07.github.io/elsound-app/?v=WXJeyUg6Dv0) to view the original in your browser.
 
 The page will reload when you make changes.\
